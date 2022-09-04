@@ -1,0 +1,9 @@
+link to download chromedriver : https://chromedriver.chromium.org/downloads
+
+Chrome : 105.0.5195.102 (Official Build) (64-bit)
+ChromeDriver : 105.0.5195.19
+Python : 3.8.8
+Selenium : 4.4.3 
+Beautiful Soup 4 : 4.9.3
+Pandas : 1.2.4
+
