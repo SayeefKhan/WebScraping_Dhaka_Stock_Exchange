@@ -1,4 +1,3 @@
-# from flask import Flask, render_template, url_for, request
 import time
 import requests
 import pandas as pd
@@ -7,10 +6,9 @@ from bs4 import BeautifulSoup
 data = open("dse_1year.html", "r")
 data = data.read()
 
-    #extracting dsex data
-    
     # Create BeautifulSoup object
 soup = BeautifulSoup(data, 'html5lib')
+
     # Get table
 table = soup.find('table', _id='data-table')
 
