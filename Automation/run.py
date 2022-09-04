@@ -5,30 +5,21 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
-print('1st check')
-
 url = 'https://dse.com.bd/latest_PE.php'
 
 driver = webdriver.Chrome(executable_path=r'C:\webdrivers\chromedriver.exe')
-# driver.get("https://web.whatsapp.com")
 driver.get(url)
 
 print('check 1')
 
-# driver = webdriver.Chrome()
-
-# #Redirecting to URL
-# driver.get('https://dse.com.bd/')
-
-    
-#     #Maximizing Window
 driver.maximize_window()
-print('check 2')
+
+# print('check 2')
 driver.find_element("link text", "Recent Market Information").send_keys("\n")
-print('check 3')
+
 time.sleep(0.5)
 driver.find_element("link text", "More recent market information").send_keys("\n")
-print('check 4')
+
 time.sleep(0.5)
 
 #("01/01/2015")
@@ -36,55 +27,40 @@ driver.find_element("xpath", '//*[@id="startDate"]').send_keys("01")
 driver.find_element("xpath", '//*[@id="startDate"]').send_keys("01")
 driver.find_element("xpath", '//*[@name="startDate"]').send_keys(Keys.ARROW_RIGHT)
 driver.find_element("xpath", '//*[@id="startDate"]').send_keys("2015")
-print('check 5')
 time.sleep(0.5)
 
+# 1/9/2022
 driver.find_element("xpath", '//*[@id="endDate"]').send_keys("01")
 driver.find_element("xpath", '//*[@id="endDate"]').send_keys("09")
 driver.find_element("xpath", '//*[@name="endDate"]').send_keys(Keys.ARROW_RIGHT)
 driver.find_element("xpath", '//*[@id="endDate"]').send_keys("2022")
-print('check 6')
 time.sleep(0.5)
+
 driver.find_element("name", "searchRecentMarket").send_keys("\n")
-
-print('done1 ')
-
-#     #Click on Link and Redirect to another page
-# driver.find_element_by_link_text("Recent Market Information").send_keys("\n")
-# time.sleep(0.5)
-# driver.find_element_by_link_text("More recent market information").send_keys("\n")
-# time.sleep(0.5)
-# driver.find_element_by_xpath('//*[@id="startDate"]').send_keys("01/01/2015")
-# time.sleep(0.5)
-# driver.find_element_by_xpath('//*[@id="endDate"]').send_keys("08/24/2022")
-# time.sleep(0.5)
-# driver.find_element_by_name('searchRecentMarket').send_keys("\n")
-
 
 h = driver.page_source
 with open("dse_index.html","w") as f:
     f.write(h)
 
-    # Downloading contents of the web page
+# Downloading contents of the web page
 data = open("dse_index.html", "r")
 data = data.read()
 
-    #extracting dsex data
-    
-    # Create BeautifulSoup object
+# Create BeautifulSoup object
 soup = BeautifulSoup(data, 'html5lib')
-    # Get table
+
+# Get table
 table = soup.find('table', _id='data-table')
 
 contents = []
 df = pd.DataFrame(columns=['Date', 'Total Trade', 'Total Volume', 'Total Value in Taka (mn)', 'Total Market Cap in Taka (mn)', 'DSEX Index', 'DSES Index',
                             'DS30 Index', 'DGEN Index'])
-    # Getting all rows
-    #for row in table.find_all('th'):
-    #    print(row)
+    
+# Getting all rows
+#for row in table.find_all('th')
 
 for row in table.tbody.find_all('tr'):    
-        # Find all data for each column
+# Find all data for each column
     columns = row.find_all('td')
     if(columns != []):
         date = columns[0].text.strip()
@@ -105,9 +81,9 @@ df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y').dt.date
 df.to_excel("dse_index.xlsx", index=False)
 print(df)
 
-    #extracting trade data 
     
-    #Click on Link and Redirect to another page
+    
+#Click on Link and Redirect to another page
 driver.find_element("link text", "Home").send_keys("\n")
 
 time.sleep(0.5)
@@ -134,4 +110,4 @@ table = table.fillna('')
 print(table)
 table.to_excel("current_trade.xlsx", index=False)
 
-print('done')
+print('Extraction done')
